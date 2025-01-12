@@ -1,3 +1,4 @@
+import type { D1Database } from '@cloudflare/workers-types';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
@@ -9,7 +10,7 @@ export interface Env {
   DB: D1Database;
 }
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<{ Bindings: { DB: D1Database } }>();
 
 // CORSの設定
 app.use(
@@ -33,7 +34,11 @@ app.get('/healthz', (c) => c.json({ status: 'ok' }));
 
 // tRPCハンドラー
 app.all('/trpc/*', async (c) => {
-  const repositories = createRepositories(c.env.DB);
+  if (!c.env?.DB) {
+    throw new Error('Database is not initialized');
+  }
+
+  const repositories = createRepositories(c.env.DB as D1Database);
 
   const response = await fetchRequestHandler({
     endpoint: '/trpc',

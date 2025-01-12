@@ -29,6 +29,11 @@ export type DomainError = NotFoundError | ValidationError;
 export type RepositoryErrors = RepositoryError | UnexpectedError;
 export type AllErrors = DomainError | RepositoryErrors;
 
+// Effect.Effect<R, E, A>
+// R: リソース型（この場合はnever）
+// E: エラー型（この場合はAllErrors）
+// A: 成功値の型（この場合はUser, Goal等）
+
 export interface UserRepository {
   readonly create: (data: CreateUser) => Effect.Effect<never, AllErrors, User>;
   readonly findById: (id: UserId) => Effect.Effect<never, AllErrors, User | null>;
