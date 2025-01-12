@@ -1,270 +1,270 @@
 :root {
-    --primary-color: #2E7D32;
-    --secondary-color: #1976D2;
-    --background-color: #f5f7fa;
-    --text-color: #333;
-    --light-gray: #e0e0e0;
-    --success-color: #66BB6A;
+	--primary-color: #2e7d32;
+	--secondary-color: #1976d2;
+	--background-color: #f5f7fa;
+	--text-color: #333;
+	--light-gray: #e0e0e0;
+	--success-color: #66bb6a;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	background-color: var(--background-color);
+	color: var(--text-color);
+	line-height: 1.6;
 }
 
 .app-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 20px;
 }
 
 header {
-    text-align: center;
-    margin-bottom: 40px;
+	text-align: center;
+	margin-bottom: 40px;
 }
 
 header h1 {
-    color: var(--primary-color);
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
+	color: var(--primary-color);
+	font-size: 2.5em;
+	margin-bottom: 10px;
+	letter-spacing: 0.5px;
 }
 
 .subtitle {
-    color: #555;
-    font-size: 1.1em;
+	color: #555;
+	font-size: 1.1em;
 }
 
 .trainer-message {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 30px;
-    gap: 20px;
+	display: flex;
+	align-items: flex-start;
+	margin-bottom: 30px;
+	gap: 20px;
 }
 
 .trainer-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid var(--primary-color);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 3px solid var(--primary-color);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .trainer-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .message-bubble {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 20px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-    position: relative;
-    flex: 1;
+	background: white;
+	padding: 15px 20px;
+	border-radius: 20px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+	position: relative;
+	flex: 1;
 }
 
 .message-bubble::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 20px;
-    border-style: solid;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent white transparent transparent;
+	content: "";
+	position: absolute;
+	left: -10px;
+	top: 20px;
+	border-style: solid;
+	border-width: 10px 10px 10px 0;
+	border-color: transparent white transparent transparent;
 }
 
 .message-bubble p {
-    margin-bottom: 10px;
-    color: #444;
+	margin-bottom: 10px;
+	color: #444;
 }
 
 .message-bubble p:last-child {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .goal-setting {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+	background: white;
+	padding: 25px;
+	border-radius: 15px;
+	margin-bottom: 30px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 .input-group {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
+	display: flex;
+	gap: 10px;
+	margin-top: 15px;
 }
 
 input[type="text"] {
-    flex: 1;
-    padding: 12px 15px;
-    border: 2px solid var(--light-gray);
-    border-radius: 8px;
-    font-size: 1em;
-    transition: all 0.3s ease;
+	flex: 1;
+	padding: 12px 15px;
+	border: 2px solid var(--light-gray);
+	border-radius: 8px;
+	font-size: 1em;
+	transition: all 0.3s ease;
 }
 
 input[type="text"]:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+	border-color: var(--primary-color);
+	outline: none;
+	box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 
 button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: all 0.3s ease;
-    font-weight: 500;
+	background-color: var(--primary-color);
+	color: white;
+	border: none;
+	padding: 12px 24px;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 1em;
+	transition: all 0.3s ease;
+	font-weight: 500;
 }
 
 button:hover {
-    background-color: #1B5E20;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	background-color: #1b5e20;
+	transform: translateY(-1px);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .goals-list {
-    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .goal-item {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease;
+	background: white;
+	padding: 25px;
+	border-radius: 15px;
+	margin-bottom: 15px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+	transition: transform 0.3s ease;
 }
 
 .goal-item:hover {
-    transform: translateY(-2px);
+	transform: translateY(-2px);
 }
 
 .goal-content {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
 }
 
 .goal-content input[type="checkbox"] {
-    margin-right: 15px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    border: 2px solid var(--primary-color);
-    border-radius: 4px;
+	margin-right: 15px;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	border: 2px solid var(--primary-color);
+	border-radius: 4px;
 }
 
 .goal-content label {
-    font-size: 1.1em;
-    cursor: pointer;
-    color: #444;
+	font-size: 1.1em;
+	cursor: pointer;
+	color: #444;
 }
 
 .goal-progress {
-    background: var(--light-gray);
-    height: 8px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    overflow: hidden;
+	background: var(--light-gray);
+	height: 8px;
+	border-radius: 4px;
+	margin-bottom: 15px;
+	overflow: hidden;
 }
 
 .progress-bar {
-    height: 100%;
-    background: var(--success-color);
-    border-radius: 4px;
-    transition: width 0.5s ease;
+	height: 100%;
+	background: var(--success-color);
+	border-radius: 4px;
+	transition: width 0.5s ease;
 }
 
 .partner-feedback {
-    color: #666;
-    font-style: italic;
-    padding-left: 35px;
-    position: relative;
+	color: #666;
+	font-style: italic;
+	padding-left: 35px;
+	position: relative;
 }
 
 .partner-feedback::before {
-    content: '"';
-    position: absolute;
-    left: 15px;
-    top: -5px;
-    font-size: 1.5em;
-    color: var(--primary-color);
-    opacity: 0.5;
+	content: '"';
+	position: absolute;
+	left: 15px;
+	top: -5px;
+	font-size: 1.5em;
+	color: var(--primary-color);
+	opacity: 0.5;
 }
 
 .motivation-tracker {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+	background: white;
+	padding: 25px;
+	border-radius: 15px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 .mood-selector {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 15px;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+	margin-top: 15px;
 }
 
 .mood-btn {
-    font-size: 1.5em;
-    padding: 10px 15px;
-    background: transparent;
-    border: 2px solid var(--light-gray);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
+	font-size: 1.5em;
+	padding: 10px 15px;
+	background: transparent;
+	border: 2px solid var(--light-gray);
+	border-radius: 50%;
+	cursor: pointer;
+	transition: all 0.3s ease;
 }
 
 .mood-btn:hover {
-    transform: scale(1.1);
-    border-color: var(--primary-color);
-    background: transparent;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	transform: scale(1.1);
+	border-color: var(--primary-color);
+	background: transparent;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 600px) {
-    .app-container {
-        padding: 15px;
-    }
+	.app-container {
+		padding: 15px;
+	}
 
-    .trainer-message {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+	.trainer-message {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
 
-    .message-bubble::before {
-        display: none;
-    }
+	.message-bubble::before {
+		display: none;
+	}
 
-    .input-group {
-        flex-direction: column;
-    }
+	.input-group {
+		flex-direction: column;
+	}
 
-    button {
-        width: 100%;
-    }
+	button {
+		width: 100%;
+	}
 
-    .goal-item {
-        padding: 20px;
-    }
+	.goal-item {
+		padding: 20px;
+	}
 }

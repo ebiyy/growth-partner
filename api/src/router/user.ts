@@ -1,19 +1,19 @@
-import { initTRPC } from '@trpc/server';
-import * as Effect from 'effect/Effect';
 import * as S from '@effect/schema/Schema';
-import { z } from 'zod';
-import { Context } from '../context';
 import {
   CreateUser,
-  UserNotFoundError,
   EmailAlreadyExistsError,
+  UserEmail,
+  UserId,
+  UserName,
+  UserNotFoundError,
   UserRepositoryTag,
   createUser,
   getUser,
-  UserName,
-  UserEmail,
-  UserId,
 } from '@growth-partner/core';
+import { initTRPC } from '@trpc/server';
+import * as Effect from 'effect/Effect';
+import { z } from 'zod';
+import type { Context } from '../context';
 
 const t = initTRPC.context<Context>().create();
 
