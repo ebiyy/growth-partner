@@ -1,12 +1,12 @@
 {
-	"extends": "@growth-partner/config/tsconfig/next.json",
-	"compilerOptions": {
-		"plugins": [{ "name": "next" }],
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		}
-	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+  "extends": "@growth-partner/config/tsconfig/next.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

@@ -1,11 +1,11 @@
 {
-	"extends": "@growth-partner/config/tsconfig/react-library.json",
-	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		}
-	},
-	"include": ["src", "vite.config.ts"],
-	"exclude": ["node_modules", "dist"]
+  "extends": "@growth-partner/config/tsconfig/react-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules", "dist"]
 }

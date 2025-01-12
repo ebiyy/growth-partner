@@ -1,13 +1,13 @@
 {
-	"name": "@growth-partner/config",
-	"version": "0.0.1",
-	"private": true,
-	"main": "index.js",
-	"files": ["biome", "tailwind", "tsconfig"],
-	"devDependencies": {
-		"@types/node": "^20.11.0",
-		"tailwindcss": "^3.4.1",
-		"tailwindcss-animate": "^1.0.7",
-		"typescript": "^5.3.3"
-	}
+  "name": "@growth-partner/config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js",
+  "files": ["biome", "tailwind", "tsconfig"],
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3"
+  }
 }
