@@ -18,3 +18,21 @@
       current_version: "1.5.1"
       target_version: "1.9.4"
       status: update_required
+  task_management_rules:
+    - rule: tasksディレクトリを最初に確認
+      priority: highest
+    - rule: 完了したタスクはyamlから削除
+      priority: high
+    - rule: コミット粒度の管理
+      details:
+        - 機能単位でのコミット
+        - 設定変更は独立したコミット
+        - ドキュメント更新は個別にコミット
+        - 1つのタスクにつき1つ以上のコミット
+  workflow:
+    - step: tasksディレクトリの確認
+      status: completed
+    - step: 現在の状態分析
+      status: completed
+    - step: タスク更新とコミット
+      status: pending
