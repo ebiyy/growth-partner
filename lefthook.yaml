@@ -1,0 +1,34 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      glob: "*.{ts,tsx,json,yml,yaml}"
+      run: bunx lint-staged
+    type-check:
+      glob: "*.{ts,tsx}"
+      run: turbo run type-check
+    format:
+      glob: "*.{ts,tsx,json,yml,yaml}"
+      run: bunx @biomejs/biome format {staged_files} --write
+
+commit-msg:
+  commands:
+    conventional-commits:
+      run: |
+        commit_msg_file=$1
+        commit_msg=$(cat $commit_msg_file)
+        commit_pattern="^(feat|fix|docs|style|refactor|perf|test|chore|ci|build|revert)(\([a-z-]+\))?: .+"
+        if ! [[ $commit_msg =~ $commit_pattern ]]; then
+          echo "Error: Commit message does not follow Conventional Commits format"
+          echo "Format: type(scope): description"
+          echo "Types: feat, fix, docs, style, refactor, perf, test, chore, ci, build, revert"
+          exit 1
+        fi
+
+pre-push:
+  parallel: true
+  commands:
+    test:
+      run: turbo run test
+    build:
+      run: turbo run build

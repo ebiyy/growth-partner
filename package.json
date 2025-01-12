@@ -16,10 +16,27 @@
     "test": "turbo run test",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
-    "format": "bunx @biomejs/biome format . --write"
+    "format": "bunx @biomejs/biome format . --write",
+    "prepare": "lefthook install"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "biome lint",
+      "biome format"
+    ],
+    "*.{json,yml,yaml}": [
+      "biome format"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
   },
   "devDependencies": {
     "@biomejs/biome": "1.5.1",
+    "@changesets/cli": "^2.27.11",
+    "lefthook": "^1.10.3",
+    "lint-staged": "^15.3.0",
+    "sort-package-json": "^2.12.0",
     "turbo": "latest"
   },
   "packageManager": "bun@1.0.25"

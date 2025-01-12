@@ -1,0 +1,170 @@
+# Cline のタスク管理ルール
+
+## トークン管理
+
+### トークン制限の監視
+- 入力トークンが80k を超えた場合、現在のタスクの状態を yaml に記録
+- 新しいセッションでの再開を促す
+- トークン使用量の定期的な確認
+
+### パッケージごとのトークン配分
+- api: 20k（スキーマ定義、ルーティング）
+- core: 25k（ドメインロジック、ユースケース）
+- desktop: 15k（UI実装、状態管理）
+- ui: 15k（共通コンポーネント）
+- web: 15k（ページ実装、状態管理）
+- config: 10k（設定ファイル）
+
+## ライブラリ管理
+
+### ライブラリ情報の取得
+```yaml
+library_check:
+  frequency: 'task_start'  # タスク開始時に確認
+  mcp_server: 'npm-info'
+  checks:
+    - latest_version
+    - release_history
+    - dependencies
+```
+
+### ドキュメント管理
+```yaml
+docs:
+  location: 'docs/libraries'
+  structure:
+    - name: string
+    - version: string
+    - last_checked: date
+    - known_issues:
+        - issue: string
+          workaround: string
+    - alternatives:
+        - name: string
+          reason: string
+```
+
+### 問題発生時の対応
+1. npm-info で最新の情報を取得
+2. 既知の問題と解決策を確認
+3. 代替ライブラリの検討
+4. ドキュメントの更新
+
+## タスク分割戦略
+
+### パッケージ単位の分割
+- core の変更が必要な場合は最優先で実行
+- ui の変更は独立したタスクとして処理
+- api の変更はスキーマ定義と実装を分離
+- web/desktop の変更は共通処理を ui に抽出
+
+### 依存関係の管理
+```yaml
+dependencies:
+  core:
+    - domain
+    - usecases
+    - services
+  api:
+    - core
+    - schema
+    - router
+  ui:
+    - components
+    - hooks
+    - styles
+  web:
+    - ui
+    - pages
+    - trpc
+  desktop:
+    - ui
+    - pages
+```
+
+## タスク状態管理
+
+### yaml 形式での記録
+```yaml
+task_id: string
+package: 'api' | 'core' | 'desktop' | 'ui' | 'web' | 'config'
+status: 'in_progress' | 'pending' | 'completed'
+current_step: number
+total_steps: number
+remaining_tokens: number
+affected_packages:
+  - name: string
+    status: string
+next_actions:
+  - package: string
+    description: string
+    priority: number
+library_issues:
+  - name: string
+    version: string
+    status: 'resolved' | 'pending' | 'blocked'
+    alternative_used: string | null
+```
+
+### パッケージ間の状態同期
+1. core の変更時は依存パッケージの状態を pending に
+2. ui の変更時は web/desktop の影響を確認
+3. config の変更時は全パッケージの再検証
+
+## メモリ最適化
+
+### パッケージごとの読み込み戦略
+- core: 必要なドメインのみ読み込み
+- api: 関連するルートのみ処理
+- ui: 必要なコンポーネントのみ分析
+- web/desktop: 対象ページのみ処理
+
+### キャッシュ管理
+- core のドメインモデルをメモリに保持
+- ui のコンポーネント定義を優先的にキャッシュ
+- config の設定は常時メモリに保持
+- ライブラリ情報は server-memory に保存
+
+## セッション管理
+
+### 新規セッション開始時
+1. tasks.yaml の確認
+2. 対象パッケージの依存関係チェック
+3. 必要なファイルのみ読み込み
+4. メモリ使用量の最適化
+5. ライブラリの状態確認
+
+### セッション終了時
+1. パッケージごとの状態を yaml に保存
+2. 次のアクションリストを依存順に作成
+3. 残存するトークン量を記録
+4. ライブラリ関連の問題を docs に記録
+
+## エラー処理
+
+### パッケージ別エラー対応
+1. core のエラーは全依存パッケージを検証
+2. ui のエラーは web/desktop の動作確認
+3. config のエラーは全パッケージの設定を検証
+4. ライブラリエラーは docs を参照して対応
+
+### リカバリー手順
+1. エラー発生パッケージの状態復元
+2. 依存パッケージの整合性確認
+3. 必要に応じて依存パッケージも復元
+4. ライブラリ問題の場合は代替案を適用
+
+## 最適化ルール
+
+### パッケージ優先順位
+1. core（ドメインロジック）
+2. api（バックエンド）
+3. ui（共通コンポーネント）
+4. web/desktop（アプリケーション）
+5. config（設定）
+
+### リソース管理
+- パッケージごとのメモリ制限を設定
+- 大規模な変更は依存順に分割
+- 共通処理は ui パッケージに集約
+- ライブラリ情報は効率的にキャッシュ
