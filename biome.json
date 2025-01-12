@@ -60,7 +60,8 @@
       "**/build/**",
       "**/.next/**",
       "**/.turbo/**",
-      "**/coverage/**"
+      "**/coverage/**",
+      "tasks/**/*.yaml"
     ]
   }
 }
