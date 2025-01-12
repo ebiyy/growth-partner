@@ -1,0 +1,26 @@
+{
+  "name": "growth-partner",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "web",
+    "desktop",
+    "api",
+    "core",
+    "ui",
+    "config"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "format": "bunx @biomejs/biome format . --write"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.5.1",
+    "turbo": "latest"
+  },
+  "packageManager": "bun@1.0.25"
+}

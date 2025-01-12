@@ -1,0 +1,266 @@
+project: growth-partner
+description: あなたの成長を共に歩むパートナー
+
+monorepo:
+  package-manager: bun
+  workspace-manager: turborepo
+  workspaces:
+    - web              # Next.js frontend
+    - desktop          # Tauri app
+    - api             # tRPC API definitions
+    - core            # Shared business logic
+    - ui              # Component library
+    - config          # Shared configurations
+
+tech-stack:
+  frontend:
+    framework: 
+      name: Next.js v15
+      runtime: React v19
+    styling: Tailwind CSS
+    components: shadcn/ui
+    state-management: Effect-ts
+    desktop: Tauri
+    tools:
+      linter: Biome
+      formatter: Biome
+      bundler: bun
+
+  backend:
+    framework: Hono.js
+    platform: Cloudflare Workers
+    database: Cloudflare D1
+    storage: Cloudflare KV/R2
+    api:
+      - tRPC
+      - Effect-ts integration
+
+  api-integration:
+    type-safety:
+      - tRPC router
+      - Zod validation
+      - Effect-ts error handling
+    features:
+      - End-to-end type safety
+      - Real-time subscriptions
+      - Optimistic updates
+
+  ai:
+    framework: LangChain.js
+    features:
+      - 目標提案
+      - パーソナライズドアドバイス
+      - 進捗分析
+
+typescript-config:
+  base:
+    strict: true
+    target: "ES2022"
+    lib: ["ES2022", "DOM", "DOM.Iterable"]
+    module: "ESNext"
+    skipLibCheck: true
+    moduleResolution: "bundler"
+    allowImportingTsExtensions: true
+    resolveJsonModule: true
+    isolatedModules: true
+    noEmit: true
+    jsx: "preserve"
+    incremental: true
+    plugins:
+      - "next"
+
+  variants:
+    next:
+      extends: "./base.json"
+      compilerOptions:
+        plugins:
+          - "next"
+        paths:
+          "@/*": ["./src/*"]
+
+    react-library:
+      extends: "./base.json"
+      compilerOptions:
+        jsx: "react-jsx"
+        paths:
+          "@/*": ["./src/*"]
+
+    node-library:
+      extends: "./base.json"
+      compilerOptions:
+        module: "NodeNext"
+        moduleResolution: "NodeNext"
+
+implementation-phases:
+  1-monorepo-setup:
+    priority: highest
+    tasks:
+      - Turborepoの初期設定
+      - 共通設定の作成
+      - TypeScript設定の共有
+      - Biome設定の共有
+    focus-points:
+      - 効率的なビルドパイプライン
+      - 依存関係の適切な管理
+      - 一貫した開発環境
+
+  2-core-domain:
+    priority: high
+    tasks:
+      - Effect-tsによるドメインモデルの実装
+      - ユースケースの定義と実装
+      - 外部サービスの抽象化レイヤー作成
+      - Biomeの設定と型チェック
+      - tRPCルーターの定義
+    focus-points:
+      - 関数型プログラミングパターンの適用
+      - エラー処理の統一的な実装
+      - テスト可能な設計
+      - 一貫したコードスタイル
+      - 型安全性の確保
+
+  3-api-endpoints:
+    priority: high
+    tasks:
+      - tRPCルーターの実装
+      - Hono.jsとtRPCの統合
+      - Cloudflare Workersの設定
+      - D1/KVとの連携実装
+      - Effect-tsとの統合
+    focus-points:
+      - エッジでの高速なレスポンス
+      - オフライン対応の考慮
+      - セキュリティ設定
+      - 型安全性の確保
+      - エラーハンドリング
+
+  4-frontend-ui:
+    priority: high
+    tasks:
+      - Next.js v15 + React v19セットアップ
+      - Biomeの設定
+      - shadcn/uiのインストールと設定
+      - tRPCクライアントの設定
+      - コンポーネント設計と実装
+      - URLベースの状態管理実装
+      - カスタムテーマの作成
+    focus-points:
+      - React v19の新機能活用
+      - パフォーマンス最適化
+      - アクセシビリティ対応
+      - レスポンシブデザイン
+      - コンポーネントの再利用性
+      - 型安全なAPI通信
+
+  5-ai-features:
+    priority: medium
+    tasks:
+      - LangChain.jsの統合
+      - AI機能の実装
+      - パーソナライズ機能の強化
+      - tRPCを通じたAI機能の提供
+    focus-points:
+      - ユーザー体験の向上
+      - プライバシーへの配慮
+      - 処理の最適化
+      - 型安全性の確保
+
+  6-desktop-integration:
+    priority: medium
+    tasks:
+      - Tauriの設定と統合
+      - クロスプラットフォーム対応
+      - ビルド/デプロイ設定
+      - tRPCクライアントの設定
+    focus-points:
+      - ネイティブ機能の活用
+      - パフォーマンス最適化
+      - セキュリティ設定
+      - オフライン対応
+
+architecture:
+  workspace-structure:
+    web:               # Next.js frontend
+      src:
+        - components
+        - hooks
+        - pages
+        - styles
+        - trpc
+    desktop:           # Tauri app
+      src:
+        - components
+        - hooks
+        - pages
+    api:              # tRPC API definitions
+      src:
+        - router
+        - schema
+        - context
+    core:             # Shared business logic
+      src:
+        - domain
+        - usecases
+        - services
+    ui:               # Component library
+      src:
+        - components
+        - hooks
+        - styles
+    config:           # Shared configurations
+      - biome
+      - tailwind
+      - tsconfig
+
+development-guidelines:
+  coding-style:
+    - Effect-tsベースの関数型プログラミング
+    - 型安全性の確保
+    - テスタビリティの重視
+    - コンポーネントの再利用性重視
+    - Biomeによる一貫したコードフォーマット
+
+  linting:
+    - Biomeによる静的解析
+    - TypeScriptの厳格なチェック
+    - アクセシビリティルールの適用
+    - パフォーマンスパターンの検証
+
+  testing:
+    - Effect.provideによるモック
+    - TestContextの活用
+    - E2Eテストの実装
+    - コンポーネントテスト
+    - tRPCルーターのテスト
+
+  documentation:
+    - APIドキュメント
+    - アーキテクチャ説明
+    - セットアップガイド
+    - コンポーネントカタログ
+    - 型定義ドキュメント
+
+deployment:
+  staging:
+    - Cloudflare Pagesステージング環境
+    - テスト用Workersデプロイ
+    
+  production:
+    - Cloudflare Pages本番環境
+    - Workers本番デプロイ
+    - Tauriアプリケーションビルド
+
+scripts:
+  root:
+    dev: "turbo run dev"
+    build: "turbo run build"
+    test: "turbo run test"
+    lint: "turbo run lint"
+    clean: "turbo run clean && rm -rf node_modules"
+
+  workspace:
+    dev: "bun run dev"
+    build: "bun run build"
+    test: "bun run test"
+    lint: "bunx @biomejs/biome check ."
+    format: "bunx @biomejs/biome format . --write"

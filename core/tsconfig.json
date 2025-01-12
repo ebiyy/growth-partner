@@ -1,0 +1,11 @@
+{
+  "extends": "@growth-partner/config/tsconfig/node-library.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
