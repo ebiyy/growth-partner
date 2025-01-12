@@ -1,0 +1,20 @@
+- name: システム状態チェック
+  id: system-check-2025-01-12
+  package: config
+  state: in_progress
+  steps:
+    current: 1
+    total: 3
+  tokens_remaining: 80000
+  dependencies:
+    - name: config
+      state: needs_update
+  actions:
+    - target: config
+      task: Biomeを1.9.4にアップデート
+      priority: high
+  packages:
+    - name: "@biomejs/biome"
+      current_version: "1.5.1"
+      target_version: "1.9.4"
+      status: update_required
