@@ -1,0 +1,226 @@
+project: growth-partner
+description: ライフサイクルとCI/CD管理
+
+git-hooks:
+  husky:
+    pre-commit:
+      - lint-staged設定
+      - TypeScriptの型チェック
+      - Biomeによる自動フォーマット
+    commit-msg:
+      - Conventional Commits検証
+    pre-push:
+      - テストの実行
+      - ビルド確認
+
+  lint-staged:
+    "*.{ts,tsx}":
+      - biome lint
+      - biome format
+    "*.{json,yml,yaml}":
+      - biome format
+    "package.json":
+      - sort-package-json
+
+github-actions:
+  workflows:
+    ci:
+      triggers:
+        - pull_request
+        - push:
+            branches: [main]
+      jobs:
+        - type-check
+        - lint
+        - test
+        - build
+        
+    release:
+      triggers:
+        - push:
+            branches: [main]
+            paths: [.changeset/**]
+      jobs:
+        - version-packages
+        - create-release
+        - publish-packages
+
+    dependency-review:
+      triggers:
+        - pull_request
+      jobs:
+        - security-audit
+        - license-check
+
+changesets:
+  config:
+    access: public
+    baseBranch: main
+    changelog: true
+    commit: true
+    linked: true
+    updateInternalDependencies: patch
+    ignore:
+      - "@growth-partner/config"
+      - "@growth-partner/tsconfig"
+
+  commit-types:
+    major:
+      - breaking
+      - BREAKING CHANGE
+    minor:
+      - feat
+      - feature
+    patch:
+      - fix
+      - bugfix
+      - perf
+    none:
+      - chore
+      - docs
+      - test
+      - ci
+      - style
+
+renovate:
+  extends:
+    - config:base
+    - schedule:weekly
+    - group:allNonMajor
+  packageRules:
+    - matchPackagePatterns:
+        - "^@growth-partner/"
+      enabled: false
+    - matchUpdateTypes:
+        - major
+      dependencyDashboardApproval: true
+    - matchPackagePatterns:
+        - "^@types/"
+      automerge: true
+      major:
+        automerge: false
+
+deployment:
+  environments:
+    preview:
+      trigger: pull_request
+      platform: Cloudflare Pages
+      features:
+        - プルリクエストごとの一時的なデプロイ
+        - 自動的なプレビューURLの生成
+        - E2Eテストの実行
+
+    staging:
+      trigger: push to develop
+      platform: Cloudflare Pages
+      features:
+        - 開発チーム向けの検証環境
+        - 自動デプロイ
+        - パフォーマンステスト
+
+    production:
+      trigger: release publish
+      platform: Cloudflare Pages
+      features:
+        - 本番環境へのデプロイ
+        - ゼロダウンタイムデプロイ
+        - 自動的なロールバック機能
+
+monitoring:
+  error-tracking:
+    service: Sentry
+    features:
+      - SourceMapのアップロード
+      - リリースの追跡
+      - パフォーマンスモニタリング
+
+  analytics:
+    service: Cloudflare Analytics
+    features:
+      - ページビュー分析
+      - パフォーマンスメトリクス
+      - エラーレート監視
+
+automation-tasks:
+  daily:
+    - 依存関係の更新チェック
+    - セキュリティ脆弱性スキャン
+    - 型定義の整合性チェック
+
+  weekly:
+    - パッケージのアップデート提案
+    - パフォーマンスレポート生成
+    - ライセンスコンプライアンスチェック
+
+  monthly:
+    - 依存関係グラフの最適化
+    - 未使用パッケージの検出
+    - バンドルサイズ分析
+
+integration-tests:
+  e2e:
+    tool: Playwright
+    config:
+      browsers:
+        - chromium
+        - firefox
+        - webkit
+      devices:
+        - Desktop
+        - iPhone
+        - iPad
+    workflows:
+      - プルリクエスト時の自動実行
+      - 定期的な全体テスト
+      - デプロイ前の検証
+
+  visual-regression:
+    tool: Playwright
+    config:
+      snapshots:
+        - コンポーネント単位
+        - ページ単位
+      comparison:
+        - ピクセル差分
+        - レイアウトシフト
+    workflows:
+      - UIコンポーネントの変更時
+      - テーマ更新時
+      - レスポンシブデザインの検証
+
+quality-gates:
+  pull-request:
+    required:
+      - タイプチェックパス
+      - リントエラーなし
+      - テストパス
+      - E2Eテストパス
+      - レビュー承認
+    optional:
+      - パフォーマンスメトリクス
+      - バンドルサイズ制限
+      - カバレッジ基準
+
+  release:
+    required:
+      - セマンティックバージョニング
+      - CHANGELOGの更新
+      - デプロイプレビュー確認
+    optional:
+      - パフォーマンステスト
+      - 負荷テスト
+
+scripts:
+  setup:
+    - husky install
+    - bun install
+    - turbo run build
+
+  validate:
+    - turbo run type-check
+    - turbo run lint
+    - turbo run test
+
+  release:
+    - changeset version
+    - changeset publish
