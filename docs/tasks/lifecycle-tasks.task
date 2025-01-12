@@ -1,0 +1,77 @@
+lifecycle_management:
+  current_phase: implementation
+  feature: D1/KV実装
+  status: in_progress
+
+  技術的文脈:
+    実装状態:
+      - ✅ UserRepository基本実装
+      - ✅ GoalRepository基本実装
+      - ✅ テストケース実装
+      - ⏳ エラーハンドリング
+      - ⏳ ログ出力
+
+    直面している課題:
+      - TypeScript型定義の最適化
+      - エラー処理の統一
+      - ログ出力基準の確立
+
+    優先順位:
+      1. core packageでのエラー型定義
+      2. apiパッケージでのエラーハンドリング実装
+      3. ログ出力システムの構築
+
+  実装の意図:
+    選択理由:
+      D1Database:
+        - エッジでの高速なデータアクセス
+        - SQLiteベースの信頼性
+        - Cloudflareとの統合性
+
+      Effect.js:
+        - 型安全なエラーハンドリング
+        - モナド型による副作用の制御
+        - テスト容易性の向上
+
+      リポジトリパターン:
+        - ドメイン駆動設計の原則に従う
+        - データアクセスの抽象化
+        - テスト容易性の確保
+
+    代替案検討:
+      - KVのみの使用
+        → SQLの柔軟性が必要なため却下
+      - Prismaの使用
+        → エッジ環境との相性により却下
+      - try-catchベースのエラーハンドリング
+        → 型安全性の観点から却下
+
+  保守性考慮:
+    - マイグレーションスクリプトの整備
+    - テストカバレッジの確保
+    - エラーログの構造化
+
+  次期フェーズ準備:
+    - KVとの統合検討
+    - パフォーマンス最適化
+    - 監視システムの導入
+
+  依存関係の状態:
+    core:
+      - domain/repositories.ts: 安定
+      - domain/user.ts: 安定
+      - domain/goal.ts: 安定
+
+    api:
+      - repositories/: 実装完了
+      - router/: 基本実装完了
+      - context/: 型定義要改善
+
+  トークン管理:
+    使用状況:
+      api: 15k/20k
+      core: 5k/25k
+
+    次セッション配分:
+      api: 10k予定
+      core: 5k予定

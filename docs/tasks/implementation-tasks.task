@@ -1,0 +1,56 @@
+next_actions:
+  - package: api
+    priority: 1
+    tasks:
+      - description: エラーハンドリングの改善
+        details:
+          - Effect.jsを使用したエラー型の定義
+          - リポジトリ層のエラーハンドリング強化
+          - tRPCルーターでのエラー変換処理
+        dependencies:
+          - core/src/domain/repositories.ts
+          - api/src/repositories/user.ts
+          - api/src/repositories/goal.ts
+          - api/src/router/user.ts
+          - api/src/router/goal.ts
+
+      - description: ログ出力の整備
+        details:
+          - ログレベルの定義
+          - リポジトリ操作のログ出力
+          - エラー発生時のログ出力
+        dependencies:
+          - api/src/context.ts
+          - api/src/repositories/index.ts
+
+  - package: core
+    priority: 2
+    tasks:
+      - description: エラー型の定義
+        details:
+          - ドメインエラーの定義
+          - リポジトリエラーの定義
+        dependencies:
+          - core/src/domain/repositories.ts
+
+library_status:
+  - name: "@cloudflare/workers-types"
+    version: "4.20250109.0"
+    status: stable
+    issues: []
+
+token_management:
+  api:
+    used: 15k
+    remaining: 5k
+  core:
+    used: 5k
+    remaining: 20k
+
+session_recommendation:
+  next_focus: api/エラーハンドリング
+  estimated_tokens: 10k
+  approach: 
+    - エラー型を先にcore packageで定義
+    - apiパッケージでのエラーハンドリング実装
+    - ログ出力の統合

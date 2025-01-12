@@ -1,0 +1,90 @@
+implementation_lifecycle:
+  task_start:
+    knowledge_check:
+      - ".clinerulesでプロダクトの制約確認"
+      - "トークン制限の確認"
+      - "パッケージの依存関係確認"
+      - "本質的な目的の明確化"
+    
+    preparation:
+      - "既存タスクの状態確認"
+      - "影響範囲の把握"
+      - "実装方針の決定"
+      - "必要最小限の情報収集"
+
+  during_task:
+    implementation:
+      - "シンプルな実装から開始"
+      - "段階的な機能追加"
+      - "過度な自動化を避ける"
+      - "管理コストを最小限に"
+    
+    observation:
+      - "認識の違いの記録"
+      - "フィードバックの即時反映"
+      - "決定理由の文書化"
+      - "本質的なタスクへの集中"
+
+  task_completion:
+    verification:
+      - "実装の確認"
+      - "トークン使用量の確認"
+      - "影響範囲の最終確認"
+      - "管理負荷の評価"
+    
+    documentation:
+      - "実装プロセスの振り返り"
+      - "学びの記録"
+      - "次のタスクへの教訓"
+      - "シンプルな形式での記録"
+
+logging_rules:
+  when_to_log:
+    - "認識の違いを感じた時"
+    - "重要な決定を行った時"
+    - "予期せぬ問題が発生した時"
+    - "有用な学びがあった時"
+    - "バイアスを認識した時"
+
+  log_format:
+    location: "persona/logs/{YYYYMMDD}_{HHMM}_{category}.yml"
+    categories:
+      - "implementation_reflection"
+      - "decision_record"
+      - "learning_note"
+      - "bias_check"
+      - "chat_session"
+    
+    required_fields:
+      - "timestamp"
+      - "context"
+      - "observation"
+      - "learning"
+      - "bias_identified"
+
+    management_rules:
+      - "チャットセッションごとに個別ファイル作成"
+      - "タイムスタンプベースのファイル命名"
+      - "セッション単位での振り返り実施"
+
+self_improvement:
+  daily:
+    - "実装ログの記録と振り返り"
+    - "認識の違いの分析"
+    - "改善点の特定"
+    - "バイアスチェック"
+    - "ログ管理プロセスの見直し"
+
+  per_task:
+    - "実装アプローチの評価"
+    - "効率性の検証"
+    - "学びの整理"
+    - "管理コストの評価"
+    - "プロセス改善の検討"
+
+  continuous:
+    - "シンプルさの追求"
+    - "人間の判断の重視"
+    - "バイアスへの注意"
+    - "本質的な価値の追求"
+    - "フィードバックに基づく柔軟な改善"

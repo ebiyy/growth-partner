@@ -1,0 +1,68 @@
+# セッション管理プロセス
+
+## 基本方針
+principles:
+  - セッションの効率的な管理と追跡
+  - 進捗の確実な記録と引き継ぎ
+  - トークン使用量の最適化
+  - ドキュメントの一貫性維持
+
+## セッション実行
+execution:
+  initialization:
+    - 前回の進捗の確認
+    - 必要なコンテキストの読み込み
+    - 作業環境の準備
+  
+  monitoring:
+    token_usage:
+      warning_threshold: 70%
+      limit_threshold: 80%
+      actions:
+        - 使用量の定期的な確認
+        - 閾値超過時の新セッション検討
+    
+    progress_tracking:
+      frequency: タスク完了時
+      metrics:
+        - 完了したステップ
+        - 残存する課題
+
+## タスク完了プロセス
+task_completion:
+  documentation:
+    progress:
+      file: docs/tasks/current-progress.task
+      content:
+        - 完了した作業
+        - 次のステップ
+    
+    reflection:
+      file: "docs/persona/logs/{YYYYMMDD_HHMM}_implementation_reflection.yml"
+      timing: チャットセッション終了時
+      content:
+        - 実装アプローチ
+        - フィードバック内容
+        - 得られた学び
+        - 改善点
+
+## 引き継ぎ管理
+handover:
+  required_information:
+    current_state:
+      - 作業の進捗状況
+      - 未解決の課題
+    
+    next_steps:
+      - 優先度付きのタスク
+      - 検討が必要な事項
+
+## 品質管理
+quality_assurance:
+  documentation_review:
+    - 更新内容の正確性
+    - 一貫性の確認
+  
+  process_improvement:
+    - セッション管理の効率評価
+    - 改善提案の収集

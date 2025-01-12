@@ -1,0 +1,58 @@
+schema_version: "1.0.0"
+description: "実装プロセスでの記録スキーマ"
+
+log_types:
+  implementation_reflection:
+    description: "実装時の振り返り"
+    fields:
+      timestamp: "ISO8601形式の日時"
+      context: "実装時の状況"
+      my_approach: "私の実装アプローチ"
+      user_feedback: "ユーザーからのフィードバック"
+      learning: "得られた学び"
+      next_steps: "次のアクション"
+
+  decision_record:
+    description: "重要な決定の記録"
+    fields:
+      timestamp: "ISO8601形式の日時"
+      context: "決定が必要な状況"
+      options: "検討した選択肢"
+      decision: "選択した方針"
+      reasoning: "選択の理由"
+      impact: "予想される影響"
+
+  learning_note:
+    description: "実装からの学び"
+    fields:
+      timestamp: "ISO8601形式の日時"
+      context: "学びが得られた状況"
+      observation: "気づいた点"
+      insight: "得られた洞察"
+      application: "今後の活用方法"
+
+validation_rules:
+  common:
+    - "timestampは記録時の日時であること"
+    - "contextは具体的であること"
+    - "すべての必須フィールドが存在すること"
+  
+  type_specific:
+    implementation_reflection:
+      - "my_approachは具体的な実装方法を含むこと"
+      - "learningは具体的な改善点を含むこと"
+    
+    decision_record:
+      - "複数の選択肢を含むこと"
+      - "選択理由が明確であること"
+    
+    learning_note:
+      - "具体的な活用方法を含むこと"
+
+file_naming:
+  pattern: "{YYYYMMDD}_{type}.yml"
+  location: "persona/logs/"
+  examples:
+    - "20250112_implementation_reflection.yml"
+    - "20250112_decision_record.yml"
+    - "20250112_learning_note.yml"

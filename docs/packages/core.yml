@@ -1,0 +1,114 @@
+# Core パッケージ仕様
+
+## パッケージ概要
+overview:
+  purpose: "ドメインロジックとビジネスルールの中核実装"
+  responsibilities:
+    - ドメインモデルの定義
+    - ビジネスルールの実装
+    - ユースケースの実装
+    - 外部サービスの抽象化
+
+## アーキテクチャ
+architecture:
+  layers:
+    domain:
+      description: "ドメインモデルとビジネスルール"
+      components:
+        - goal.ts     # 目標管理のドメインモデル
+        - user.ts     # ユーザー管理のドメインモデル
+        - repositories.ts  # リポジトリインターフェース
+    
+    services:
+      description: "外部サービスの抽象化"
+      components:
+        - notification.ts  # 通知サービス
+        - storage.ts      # ストレージサービス
+    
+    usecases:
+      description: "アプリケーションのユースケース"
+      components:
+        - goal.ts     # 目標関連のユースケース
+        - user.ts     # ユーザー関連のユースケース
+
+## 実装ガイドライン
+guidelines:
+  domain:
+    principles:
+      - ドメインモデルは独立して実装
+      - 外部依存を持たない純粋な実装
+      - バリデーションルールを明確に定義
+    
+    best_practices:
+      - 値オブジェクトの活用
+      - 不変条件の明示的な実装
+      - ドメインイベントの適切な発行
+  
+  services:
+    principles:
+      - インターフェースを明確に定義
+      - 外部サービスとの連携を抽象化
+      - エラーハンドリングを統一
+    
+    best_practices:
+      - 依存性注入の活用
+      - モック可能な設計
+      - 適切なエラー変換
+  
+  usecases:
+    principles:
+      - 単一責任の原則を遵守
+      - トランザクション境界を明確に
+      - ドメインルールの集約
+    
+    best_practices:
+      - 入力バリデーションの実装
+      - 適切な例外処理
+      - ユースケース間の依存関係の明確化
+
+## テスト要件
+testing:
+  domain:
+    coverage:
+      - 全てのバリデーションルール
+      - 値オブジェクトの不変条件
+      - エンティティの同一性規則
+    
+    approaches:
+      - ユニットテスト中心
+      - プロパティベーステスト
+      - 境界値テスト
+  
+  services:
+    coverage:
+      - 外部サービスとの連携
+      - エラーハンドリング
+      - 再試行ロジック
+    
+    approaches:
+      - モックを活用したテスト
+      - 統合テスト
+      - エラーケースの網羅
+  
+  usecases:
+    coverage:
+      - 正常系・異常系の網羅
+      - トランザクションの確認
+      - 副作用の検証
+    
+    approaches:
+      - ユースケーステスト
+      - 結合テスト
+      - シナリオテスト
+
+## 変更管理
+change_management:
+  review_points:
+    - インターフェースの互換性
+    - 依存パッケージへの影響
+    - パフォーマンスへの影響
+  
+  documentation:
+    - API仕様の更新
+    - 変更履歴の記録
+    - 移行ガイドの作成

@@ -1,0 +1,54 @@
+# ライブラリ管理ガイドライン
+
+## バージョン管理
+version_management:
+  check_timing:
+    - タスク開始時
+    - 依存関係の更新時
+    - エラー発生時
+  
+  tools:
+    - name: npm-info
+      usage: "パッケージの最新情報確認"
+    - name: project-monitor
+      usage: "依存関係の変更監視"
+
+## 既知の問題
+known_issues:
+  - library: "@trpc/server"
+    version: "^10.0.0"
+    issue: "型定義の互換性問題"
+    workaround: "10.45.0を使用"
+  
+  - library: "tauri"
+    version: "^1.0.0"
+    issue: "ビルド時の最適化問題"
+    workaround: "production buildで--verbose指定"
+
+## 代替ライブラリ
+alternatives:
+  - primary: "trpc"
+    alternatives:
+      - name: "tRPC-Hono"
+        reason: "より軽量な実装が必要な場合"
+  
+  - primary: "biome"
+    alternatives:
+      - name: "eslint"
+        reason: "より詳細なルール設定が必要な場合"
+
+## 更新プロセス
+update_process:
+  steps:
+    1: "npm-infoで最新情報を確認"
+    2: "変更履歴の確認"
+    3: "breaking changesの有無を確認"
+    4: "ローカルでのテスト実行"
+    5: "依存パッケージの動作確認"
+
+## パフォーマンス最適化
+optimization:
+  - bundle size の定期的な確認
+  - tree-shaking の効果検証
+  - 重複依存の排除
+  - 未使用パッケージの削除
