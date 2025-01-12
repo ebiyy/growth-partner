@@ -1,357 +1,72 @@
-# Cline のタスク管理ルール
+# 注意事項（最上部に配置）
+caution:
+  - トップレベルディレクトリ以外でのbun installは禁止
+  - core変更時は必ず依存パッケージの検証が必要
+  - ui変更時はweb/desktopの影響確認が必須
+  - configの変更は全パッケージの再検証が必要
+  - タスク完了時は必ずdocs配下の関連ドキュメントを更新
+  - トークン使用量が80%を超えたら新しいセッションを検討
 
-## トークン管理
+# トークン管理（即座に確認が必要な情報）
+tokens:
+  limit: 80k
+  warning: 70k
+  distribution:
+    core: 25k
+    api: 20k
+    ui: 15k
+    web: 15k
+    desktop: 15k
+    config: 10k
 
-### トークン制限の監視
-- 入力トークンが80k を超えた場合、現在のタスクの状態を .task ファイルに記録
-- 新しいセッションでの再開を促す
-- トークン使用量の定期的な確認
+# パッケージ構成（基本構造の把握に必要）
+packages:
+  dependencies:
+    core: []      # 独立
+    api: [core]
+    ui: []        # 独立
+    web: [ui]
+    desktop: [ui]
+    config: []    # 独立
 
-### パッケージごとのトークン配分
-- api: 20k（スキーマ定義、ルーティング）
-- core: 25k（ドメインロジック、ユースケース）
-- desktop: 15k（UI実装、状態管理）
-- ui: 15k（共通コンポーネント）
-- web: 15k（ページ実装、状態管理）
-- config: 10k（設定ファイル）
-
-## プロダクト管理
-
-### コンセプト情報
-```yaml
-concept:
-  core_values:
-    - 並走する存在
-    - 柔軟な目標設定
-    - ポジティブなフィードバック
-  features:
-    - スマートゴール設定
-    - アダプティブスケジューリング
-    - モチベーショントラッキング
-    - コーチング機能
-```
-
-### 実装履歴
-```yaml
-olds:
-  components:
-    - GoalManager
-    - MotivationTracker
-  features:
-    - 目標管理
-    - 進捗トラッキング
-    - モチベーション記録
-    - パートナーフィードバック
-```
-
-## ライブラリ管理
-
-### ライブラリ情報の取得
-```yaml
-library_check:
-  frequency: 'task_start'
-  mcp_server: 'npm-info'
-  checks:
-    - latest_version
-    - release_history
-    - dependencies
-```
-
-### ドキュメント管理
-```yaml
-docs:
-  location: 'docs/libraries'
-  structure:
-    - name: string
-    - version: string
-    - last_checked: date
-    - known_issues:
-        - issue: string
-          workaround: string
-    - alternatives:
-        - name: string
-          reason: string
-```
-
-### 問題発生時の対応
-1. npm-info で最新の情報を取得
-2. 既知の問題と解決策を確認
-3. 代替ライブラリの検討
-4. ドキュメントの更新
-
-## パッケージマネージャー管理
-
-### 使用可能なパッケージマネージャー
-- bun: プロジェクト全体で使用（monorepo対応）
-- npm/yarn/pnpm: 使用禁止
-
-### 依存関係のインストール
-```yaml
-rules:
+# 基本制約（違反するとビルドが失敗する制約）
+constraints:
+  package_manager: bun
   install:
-    location: トップレベルディレクトリのみ
-    command: bun install
-    restrictions:
-      - 個別パッケージディレクトリでのインストール禁止
-      - npm/yarn/pnpmの使用禁止
-  workspace:
-    management: 自動（bun workspaces）
-    dependencies:
-      format: "workspace:*"
-      resolution: 自動
-```
+    allowed: ["トップレベルディレクトリ"]
+    prohibited: ["個別パッケージディレクトリ", "npm", "yarn", "pnpm"]
+  
+  priority:
+    1: core
+    2: api
+    3: ui
 
-## タスク分割戦略
+# 自動読み込みファイル（セッション開始時に読み込み）
+auto_load_files:
+  # プロジェクト全体の構造とコンセプト
+  - docs/index/README.md
+  - docs/products/growth-partner-concept.md
+  
+  # パッケージとライブラリ情報
+  - docs/packages/core.yml
+  - docs/libraries/management.yml
+  
+  # プロセスと管理
+  - docs/processes/error-handling.yml
+  - docs/processes/session-management.yml
+  - docs/tasks/README.md
+  
+  # AI特性とペルソナ定義
+  - docs/persona/ME.yml
+  - docs/persona/BEHAVIOR.yml
+  - docs/persona/README.md
 
-### パッケージ単位の分割
-- core の変更が必要な場合は最優先で実行
-- ui の変更は独立したタスクとして処理
-- api の変更はスキーマ定義と実装を分離
-- web/desktop の変更は共通処理を ui に抽出
-
-### 実装タスク管理
-```yaml
-tasks:
-  api:
-    - tRPCルーター実装
-    - Honoサーバー実装
-    - D1/KV実装
-  web:
-    - Next.js設定
-    - tRPCクライアント
-    - 認証機能
-    - ページ実装
-  desktop:
-    - Tauri設定
-    - オフライン対応
-    - ネイティブ機能
-  ui:
-    - コンポーネント実装
-    - Storybook設定
-    - テスト実装
-  core:
-    - サービス実装
-    - テスト実装
-    - バリデーション
-  config:
-    - Biome設定
-    - Tailwind設定
-```
-
-### 依存関係の管理
-```yaml
-dependencies:
-  core:
-    - domain
-    - usecases
-    - services
-  api:
-    - core
-    - schema
-    - router
-  ui:
-    - components
-    - hooks
-    - styles
-  web:
-    - ui
-    - pages
-    - trpc
-  desktop:
-    - ui
-    - pages
-```
-
-## タスク状態管理
-
-### yaml 形式での記録
-```yaml
-task_id: string
-package: 'api' | 'core' | 'desktop' | 'ui' | 'web' | 'config'
-status: 'in_progress' | 'pending' | 'completed'
-current_step: number
-total_steps: number
-remaining_tokens: number
-affected_packages:
-  - name: string
-    status: string
-next_actions:
-  - package: string
-    description: string
-    priority: number
-library_issues:
-  - name: string
-    version: string
-    status: 'resolved' | 'pending' | 'blocked'
-    alternative_used: string | null
-```
-
-### パッケージ間の状態同期
-1. core の変更時は依存パッケージの状態を pending に
-2. ui の変更時は web/desktop の影響を確認
-3. config の変更時は全パッケージの再検証
-
-## メモリ最適化
-
-### パッケージごとの読み込み戦略
-- core: 必要なドメインのみ読み込み
-- api: 関連するルートのみ処理
-- ui: 必要なコンポーネントのみ分析
-- web/desktop: 対象ページのみ処理
-
-### キャッシュ管理
-- core のドメインモデルをメモリに保持
-- ui のコンポーネント定義を優先的にキャッシュ
-- config の設定は常時メモリに保持
-- ライブラリ情報は server-memory に保存
-
-## セッション管理
-
-### 新規セッション開始時
-1. tasks/*.task ファイルの確認
-2. 対象パッケージの依存関係チェック
-3. 必要なファイルのみ読み込み
-4. メモリ使用量の最適化
-5. ライブラリの状態確認
-
-### セッション終了時
-1. パッケージごとの状態を .task ファイルに保存
-2. 次のアクションリストを依存順に作成
-3. 残存するトークン量を記録
-4. ライブラリ関連の問題を docs に記録
-
-## エラー処理
-
-### パッケージ別エラー対応
-1. core のエラーは全依存パッケージを検証
-2. ui のエラーは web/desktop の動作確認
-3. config のエラーは全パッケージの設定を検証
-4. ライブラリエラーは docs を参照して対応
-
-### リカバリー手順
-1. エラー発生パッケージの状態復元
-2. 依存パッケージの整合性確認
-3. 必要に応じて依存パッケージも復元
-4. ライブラリ問題の場合は代替案を適用
-
-## 最適化ルール
-
-### パッケージ優先順位
-1. core（ドメインロジック）
-2. api（バックエンド）
-3. ui（共通コンポーネント）
-4. web/desktop（アプリケーション）
-5. config（設定）
-
-### リソース管理
-- パッケージごとのメモリ制限を設定
-- 大規模な変更は依存順に分割
-- 共通処理は ui パッケージに集約
-- ライブラリ情報は効率的にキャッシュ
-
-## 設定ファイル管理
-
-### 設定変更の最適化
-1. スキーマファイルを最初に確認
-   - バージョンに対応したスキーマを参照
-   - 設定項目の構造を把握
-   - 非推奨や削除された設定を特定
-
-2. 最小限の変更アプローチ
-   - 必要な設定のみを変更
-   - 動作確認を段階的に実施
-   - エラーメッセージを慎重に分析
-
-3. 依存関係の考慮
-   - 設定変更の影響範囲を事前に確認
-   - パッケージ間の整合性を維持
-   - 変更後の全体検証を実施
-
-## セルフコーチング
-
-### 振り返りと改善
-1. タスク完了後の分析
-   - 効率的だった部分の特定
-   - 非効率だった部分の認識
-   - 改善可能なプロセスの発見
-
-2. ルールの更新
-   - 学びを.clinerules に反映
-   - 新しいプロセスの定義
-   - 既存ルールの最適化
-
-3. 知識の構造化
-   - エラーパターンの蓄積
-   - 効率的な解決手順の定義
-   - 再利用可能な知見の抽出
-
-### 成長プロセス
-1. 問題認識
-   - エラーメッセージの解析
-   - 非効率なパターンの特定
-   - 改善機会の発見
-
-2. 解決策の構築
-   - 既存ルールの参照
-   - 新しいアプローチの検討
-   - 最適な手順の選択
-
-3. 実践と検証
-   - 段階的な適用
-   - 結果の評価
-   - フィードバックの収集
-
-4. 知識の統合
-   - 成功パターンの抽出
-   - ルールへの反映
-   - 再利用可能な形式化
-
-## タスク委譲の改善
-
-### セッション間の連携
-1. コンテキストの明確な伝達
-   - 現在の実装状態
-   - 直面している課題
-   - 次のステップの優先順位
-
-2. 状態の永続化
-   - current-progress.taskの活用
-   - 技術的な文脈の保持
-   - 依存関係の明確化
-
-3. プロダクトとの関係性
-   - プロダクトの目的との整合性確認
-   - ユーザー価値の継続的な考慮
-   - 実装の一貫性維持
-
-### 知識の継承
-1. 実装の意図を明確に記録
-   - なぜその実装を選択したか
-   - 考慮した代替案
-   - 将来の拡張性への配慮
-
-2. 文脈の保持
-   - プロダクトのビジョンとの関連
-   - 技術選択の理由
-   - 既存の制約条件
-
-3. 改善点の共有
-   - 発見された課題
-   - 提案される解決策
-   - 検討すべき代替案
-
-### プロダクトとの関係性
-1. プロダクトの目的を常に意識
-   - ユーザーへの価値提供
-   - 技術的な整合性
-   - 保守性と拡張性
-
-2. 一貫性の維持
-   - 設計原則の遵守
-   - コーディング規約の統一
-   - アーキテクチャの整合性
-
-3. 継続的な改善
-   - フィードバックの収集
-   - パフォーマンスの最適化
-   - セキュリティの強化
+# 詳細情報の参照先（必要に応じて参照）
+references:
+  index: docs/index/          # ドキュメント構造の全体像
+  processes: docs/processes/  # 開発プロセス
+  packages: docs/packages/    # パッケージ詳細
+  libraries: docs/libraries/  # ライブラリ情報
+  products: docs/products/    # プロダクト情報
+  tasks: docs/tasks/         # タスク管理
+  persona: docs/persona/     # AI特性定義

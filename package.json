@@ -29,5 +29,8 @@
     "sort-package-json": "^2.12.0",
     "turbo": "latest"
   },
-  "packageManager": "bun@1.0.25"
+  "packageManager": "bun@1.0.25",
+  "dependencies": {
+    "effect": "latest"
+  }
 }
