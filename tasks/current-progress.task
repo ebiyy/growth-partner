@@ -1,60 +1,53 @@
 current_task:
   package: api
-  feature: D1/KVの実装
-  status: in_progress
+  feature: エラーハンドリングの改善
+  status: completed
   last_completed:
-    - UserRepositoryの実装完了
-    - GoalRepositoryの実装完了
-    - tRPCアダプターの設定
-    - Honoサーバーの基本設定
-
-  interrupted_at:
-    file: api/src/index.ts
-    issue: TypeScriptエラーの修正
-    remaining_changes:
-      - D1Databaseの型定義の修正
-      - Honoの型定義の調整
-      - envの型チェックの追加
-
-  next_immediate_steps:
-    - priority: high
-      steps:
-        - ✅ api/src/index.tsのTypeScriptエラー修正
-        - ✅ D1マイグレーションスクリプトの作成
-        - ✅ マイグレーション実行コマンドの実装
-        - ✅ リポジトリのテストケース実装
-        - bun installの実行とテストの実行
-
-    - priority: medium
-      steps:
-        - D1リポジトリの動作確認
-        - エラーハンドリングの改善
-        - ログ出力の整備
+    - coreパッケージでのエラー型の定義
+    - Effect.jsのインストール
+    - リポジトリ層のエラーハンドリング実装
+    - Data.TaggedErrorを使用したエラー型の再定義
+    - Effect型のジェネリックパラメータの修正
+    - リポジトリインターフェースの型定義の修正
 
 technical_context:
-  current_issues:
+  resolved_issues:
     - type: typescript
-      file: api/src/index.ts
-      errors:
-        - "名前 'D1Database' が見つかりません"
-        - "型 '{ Bindings: Env; }' は制約 'Env' を満たしていません"
-        - "'c.env' は 'undefined' の可能性があります"
-        - "型 'unknown' の引数を型 'D1Database' のパラメーターに割り当てることはできません"
-
-  dependencies:
-    added:
-      - "@cloudflare/workers-types": "4.20250109.0"
+      file: core/src/domain/repositories.ts
+      solutions:
+        - Data.TaggedErrorを使用したエラークラスの定義
+        - Effect.Effect<R, E, A>の正しい型パラメータ順序の適用
+        - Context.GenericTagを使用したリポジトリタグの定義
 
   implementation_notes:
-    - D1Repositoryの実装はEffect.jsを使用
-    - マイグレーションSQLは各リポジトリファイルに定義済み
-    - Honoのコンテキストにリポジトリを注入する形で実装
+    - Effect.jsのエラー型定義：
+      - Data.TaggedErrorを使用してエラークラスを定義
+      - _tagプロパティは自動的に追加される
+      - 各エラークラスに必要なプロパティを定義
+    
+    - Effect型のジェネリックパラメータ：
+      - Effect<R, E, A>の形式で定義
+      - R: 環境（never）
+      - E: エラー型（AllErrors）
+      - A: 成功時の値の型（User等）
+    
+    - リポジトリの依存性注入：
+      - Context.GenericTagを使用
+      - タグ名を明示的に指定
+
+  dependencies:
+    current:
+      - "effect": "^2.0.0-next.62"
 
 token_status:
-  current_usage: approaching_limit
-  recommended_action: new_session
+  current_usage: normal
+  recommended_action: continue
 
 next_session_entry_point:
-  file: api/src/index.ts
-  task: TypeScriptエラーの修正
-  context: Honoサーバーの型定義とD1データベースの統合
+  file: api/src/repositories/user.ts
+  task: エラーハンドリングの動作確認
+  context: 実装したエラーハンドリングが期待通りに機能するか確認
+  suggested_approach:
+    - 各エラーケースのテストケース作成
+    - エラー変換の動作確認
+    - エラーチェーンの検証
