@@ -15,12 +15,41 @@
 - web: 15k（ページ実装、状態管理）
 - config: 10k（設定ファイル）
 
+## プロダクト管理
+
+### コンセプト情報
+```yaml
+concept:
+  core_values:
+    - 並走する存在
+    - 柔軟な目標設定
+    - ポジティブなフィードバック
+  features:
+    - スマートゴール設定
+    - アダプティブスケジューリング
+    - モチベーショントラッキング
+    - コーチング機能
+```
+
+### 実装履歴
+```yaml
+olds:
+  components:
+    - GoalManager
+    - MotivationTracker
+  features:
+    - 目標管理
+    - 進捗トラッキング
+    - モチベーション記録
+    - パートナーフィードバック
+```
+
 ## ライブラリ管理
 
 ### ライブラリ情報の取得
 ```yaml
 library_check:
-  frequency: 'task_start'  # タスク開始時に確認
+  frequency: 'task_start'
   mcp_server: 'npm-info'
   checks:
     - latest_version
@@ -57,6 +86,35 @@ docs:
 - ui の変更は独立したタスクとして処理
 - api の変更はスキーマ定義と実装を分離
 - web/desktop の変更は共通処理を ui に抽出
+
+### 実装タスク管理
+```yaml
+tasks:
+  api:
+    - tRPCルーター実装
+    - Honoサーバー実装
+    - D1/KV実装
+  web:
+    - Next.js設定
+    - tRPCクライアント
+    - 認証機能
+    - ページ実装
+  desktop:
+    - Tauri設定
+    - オフライン対応
+    - ネイティブ機能
+  ui:
+    - コンポーネント実装
+    - Storybook設定
+    - テスト実装
+  core:
+    - サービス実装
+    - テスト実装
+    - バリデーション
+  config:
+    - Biome設定
+    - Tailwind設定
+```
 
 ### 依存関係の管理
 ```yaml
