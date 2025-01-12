@@ -1,6 +1,10 @@
 {
   "name": "growth-partner",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.25"
+  },
   "private": true,
   "workspaces": ["web", "desktop", "api", "core", "ui", "config"],
   "scripts": {

@@ -2,16 +2,25 @@
   "name": "@growth-partner/api",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.25"
+  },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc",
     "lint": "biome check .",
-    "format": "biome format . --write"
+    "format": "biome format . --write",
+    "migrate:build": "tsc scripts/migrate.ts --outDir dist/scripts --esModuleInterop --module commonjs",
+    "migrate:up": "bun run migrate:build && wrangler d1 execute growth-partner --local --file=dist/scripts/migrate.js -- up growth-partner",
+    "migrate:down": "bun run migrate:build && wrangler d1 execute growth-partner --local --file=dist/scripts/migrate.js -- down growth-partner",
+    "test": "bun test"
   },
   "dependencies": {
     "@growth-partner/core": "workspace:*",
     "@trpc/server": "^11.0.0-next-beta.193",
+    "effect": "^2.0.0-next.62",
     "hono": "^3.12.0",
     "zod": "^3.22.4"
   },
@@ -19,6 +28,7 @@
     "@cloudflare/workers-types": "^4.20250109.0",
     "@growth-partner/config": "workspace:*",
     "@types/node": "^20.11.0",
+    "bun-types": "latest",
     "typescript": "^5.3.3"
   }
 }

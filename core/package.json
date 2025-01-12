@@ -2,6 +2,10 @@
   "name": "@growth-partner/core",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.25"
+  },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
